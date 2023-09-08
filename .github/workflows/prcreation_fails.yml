@@ -1,0 +1,35 @@
+name: 'Update (fail)'
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    name: Create a PR to update (fails)
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - run: echo "file" >> external-repos/create/prfile.txt
+
+      - name: Create pull request (create)
+        id: create-pr_create
+        uses: ddorando/create-pull-request@46db4850df036b094079a10b1fe099ca459a1ccc
+        with:
+          commit-message: "[AUTOMATED] Update"
+          path: external-repos/create
+          author: actions-bot <actions-bot@users.noreply.github.com>
+          branch: automated-update
+          base: main
+          delete-branch: true
+          title: "[AUTOMATED] Update (${{ github.run_id }})"
+          body: |
+            Update (${{ github.run_id }}).
+
+            This PR is automatically generated.
+          draft: false

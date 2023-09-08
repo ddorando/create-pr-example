@@ -1,0 +1,35 @@
+name: 'Update (works)'
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    name: Create a PR to update (works)
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - run: echo "file" >> external-repos/create/prfile.txt
+
+      - name: Create pull request (create)
+        id: create-pr_create
+        uses: ddorando/create-pull-request@19f4e8dd3e39db5ad4f972f23e486d23264cd1b7
+        with:
+          commit-message: "[AUTOMATED] Update"
+          path: external-repos/create
+          author: actions-bot <actions-bot@users.noreply.github.com>
+          branch: automated-update
+          base: main
+          delete-branch: true
+          title: "[AUTOMATED] Update (${{ github.run_id }})"
+          body: |
+            Update (${{ github.run_id }}).
+
+            This PR is automatically generated.
+          draft: false
