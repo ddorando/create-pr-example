@@ -1,0 +1,3 @@
+[submodule "external-repos/create"]
+	path = external-repos/create
+	url = https://github.com/ddorando/create-pr-example-submodule
